@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt 管理器</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-title">
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>Prompt 管理器</span>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="new-prompt">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+        </svg>
+        新建 Prompt
+      </button>
+      <button class="tab" data-tab="pinned">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        我的 Prompts
+      </button>
+      <button class="tab" data-tab="more">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        导入导出 & 更多
+      </button>
+    </div>
+
+    <!-- New Prompt Tab -->
+    <div class="tab-content active" id="new-prompt">
+      <div class="form-section">
+        <div class="icon-selector">
+          <div class="selected-icon" id="selected-icon"> </div>
+          <div class="icon-grid" id="icon-grid">
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon="  ">  </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon="  ">  </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon=" "> </span>
+            <span class="icon-option" data-icon="  ">  </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>标题</label>
+          <input type="text" id="prompt-title" placeholder="请输入 Prompt 标题">
+        </div>
+
+        <div class="form-group">
+          <label>描述</label>
+          <input type="text" id="prompt-desc" placeholder="请输入 Prompt 描述">
+        </div>
+
+        <div class="form-group">
+          <label>Prompt 内容</label>
+          <textarea id="prompt-content" rows="6" placeholder="你是一个专业的助手。请根据以下内容回复用户的问题，提供准确、相关的信息，保持专业语气。如需澄清，请提出后续问题。"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>分类</label>
+          <div class="select-wrapper">
+            <select id="prompt-category">
+              <option value="提示词工程">提示词工程</option>
+              <option value="写作">写作</option>
+              <option value="翻译">翻译</option>
+              <option value="编程">编程</option>
+              <option value="营销">营销</option>
+              <option value="教育">教育</option>
+              <option value="商务">商务</option>
+              <option value="创意">创意</option>
+              <option value="其他">其他</option>
+            </select>
+            <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>标签</label>
+          <div class="tags-container" id="tags-container"></div>
+          <div class="tags-input-wrapper">
+            <input type="text" id="tag-input" placeholder="Claude, OpenAI, Cursor">
+            <span class="tags-hint">回车添加标签</span>
+          </div>
+        </div>
+
+        <button class="btn-save" id="btn-save">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+          </svg>
+          保存 Prompt
+        </button>
+      </div>
+    </div>
+
+    <!-- Pinned Prompts Tab -->
+    <div class="tab-content" id="pinned">
+      <div class="search-bar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="search-input" placeholder="搜索 Prompts...">
+      </div>
+
+      <div class="category-filter">
+        <button class="filter-btn active" data-category="all">全部</button>
+        <button class="filter-btn" data-category="翻译">翻译</button>
+        <button class="filter-btn" data-category="写作">写作</button>
+        <button class="filter-btn" data-category="编程">编程</button>
+      </div>
+
+      <div class="prompts-list" id="prompts-list">
+        <!-- Prompt cards will be injected here -->
+      </div>
+    </div>
+
+    <!-- Import/Export & More Tab -->
+    <div class="tab-content" id="more">
+      <div class="settings-list">
+        <div class="settings-item" id="btn-import-json">
+          <div class="settings-item-left">
+            <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <div>
+              <div class="settings-title">导入/导出 Prompts</div>
+              <div class="settings-desc">JSON 格式</div>
+            </div>
+          </div>
+          <svg class="settings-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+
+        <div class="settings-item" id="btn-import-aipm">
+          <div class="settings-item-left">
+            <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <div>
+              <div class="settings-title">从 AIPM 导入</div>
+            </div>
+          </div>
+          <svg class="settings-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+
+        <div class="settings-item" id="btn-export-csv">
+          <div class="settings-item-left">
+            <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <div>
+              <div class="settings-title">导出 CSV</div>
+            </div>
+          </div>
+          <svg class="settings-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+
+        <div class="settings-item" id="btn-evaluation">
+          <div class="settings-item-left">
+            <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+            </svg>
+            <div>
+              <div class="settings-title">Prompt 评估</div>
+            </div>
+          </div>
+          <svg class="settings-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+
+        <div class="settings-item" id="btn-api-config">
+          <div class="settings-item-left">
+            <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <div>
+              <div class="settings-title">API 配置</div>
+            </div>
+          </div>
+          <svg class="settings-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+
+        <div class="settings-item" id="btn-manage-tags">
+          <div class="settings-item-left">
+            <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>
+            </svg>
+            <div>
+              <div class="settings-title">管理标签</div>
+            </div>
+          </div>
+          <svg class="settings-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+
+        <div class="settings-item toggle-item" id="btn-theme">
+          <div class="settings-item-left">
+            <svg class="settings-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <svg class="settings-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="display:none">
+              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <div>
+              <div class="settings-title" id="theme-label">深色模式</div>
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Import/Export -->
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal" id="modal">
+        <div class="modal-header">
+          <h3 id="modal-title">导入/导出</h3>
+          <button class="modal-close" id="modal-close">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body"></div>
+      </div>
+    </div>
+
+    <!-- Modal: Edit Prompt -->
+    <div class="modal-overlay" id="edit-modal-overlay">
+      <div class="modal" id="edit-modal">
+        <div class="modal-header">
+          <h3>编辑 Prompt</h3>
+          <button class="modal-close" id="edit-modal-close">&times;</button>
+        </div>
+        <div class="modal-body" id="edit-modal-body"></div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script src="storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
